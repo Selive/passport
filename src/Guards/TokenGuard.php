@@ -89,6 +89,9 @@ class TokenGuard
             return $this->authenticateViaBearerToken($request);
         } elseif ($request->cookie(Passport::cookie())) {
             return $this->authenticateViaCookie($request);
+        } elseif ($request->input(Passport::cookie())) {
+            $request->headers->set('Authorization', 'Bearer ' . $request->input(Passport::cookie()));
+            return $this->authenticateViaBearerToken($request);
         }
     }
 
